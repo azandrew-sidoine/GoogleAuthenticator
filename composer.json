@@ -1,11 +1,11 @@
 {
-    "name": "sonata-project/google-authenticator",
+    "name": "drewlabs/google-authenticator",
     "type": "library",
     "description": "Library to integrate Google Authenticator into a PHP project",
     "keywords": [
         "google authenticator"
     ],
-    "homepage": "https://github.com/sonata-project/GoogleAuthenticator",
+    "homepage": "https://github.com/azandrew-sidoine/GoogleAuthenticator",
     "license": "MIT",
     "authors": [
         {
@@ -19,10 +19,14 @@
         {
             "name": "Andre DeMarre",
             "homepage": "http://www.devnetwork.net/viewtopic.php?f=50&t=94989"
+        },
+        {
+            "name": "Sidoine Azandrew",
+            "email": "azandrewdevelopper@gmail.com"
         }
     ],
     "require": {
-        "php": ">=7.3"
+        "php": ">=7.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.1.8"
@@ -38,13 +42,16 @@
     "autoload": {
         "psr-4": {
             "Google\\Authenticator\\": "src/",
-            "Sonata\\GoogleAuthenticator\\": "src/"
-        }
+            "Drewlabs\\GoogleAuthenticator\\": "src/"
+        },
+        "files": [
+            "helpers/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
             "Google\\Authenticator\\Tests\\": "tests/",
-            "Sonata\\GoogleAuthenticator\\Tests\\": "tests/"
+            "Drewlabs\\GoogleAuthenticator\\Tests\\": "tests/"
         }
     }
 }

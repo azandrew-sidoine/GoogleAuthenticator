@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\GoogleAuthenticator\tests;
+namespace Drewlabs\GoogleAuthenticator\tests;
 
-use Sonata\GoogleAuthenticator\GoogleAuthenticator;
+use Drewlabs\GoogleAuthenticator\GoogleAuthenticator;
 
 class GoogleAuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \Sonata\GoogleAuthenticator\GoogleAuthenticator
+     * @var \Drewlabs\GoogleAuthenticator\GoogleAuthenticator
      */
     protected $helper;
 
@@ -164,7 +164,7 @@ class GoogleAuthenticatorTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @group legacy
-     * @expectedDeprecation Using Sonata\GoogleAuthenticator\GoogleAuthenticator::getUrl() is deprecated as of 2.1 and will be removed in 3.0. Use Sonata\GoogleAuthenticator\GoogleQrUrl::generate() instead.
+     * @expectedDeprecation Using Drewlabs\GoogleAuthenticator\GoogleAuthenticator::getUrl() is deprecated as of 2.1 and will be removed in 3.0. Use Drewlabs\GoogleAuthenticator\GoogleQrUrl::generate() instead.
      */
     public function testGetUrlIssuer(): void
     {
@@ -176,7 +176,7 @@ class GoogleAuthenticatorTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @group legacy
-     * @expectedDeprecation Using Sonata\GoogleAuthenticator\GoogleAuthenticator::getUrl() is deprecated as of 2.1 and will be removed in 3.0. Use Sonata\GoogleAuthenticator\GoogleQrUrl::generate() instead.
+     * @expectedDeprecation Using Drewlabs\GoogleAuthenticator\GoogleAuthenticator::getUrl() is deprecated as of 2.1 and will be removed in 3.0. Use Drewlabs\GoogleAuthenticator\GoogleQrUrl::generate() instead.
      */
     public function testGetUrlNoIssuer(): void
     {
