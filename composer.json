@@ -43,7 +43,7 @@
     "autoload": {
         "psr-4": {
             "Google\\Authenticator\\": "src/",
-            "Drewlabs\\GoogleAuthenticator\\": "src/"
+            "Sonata\\GoogleAuthenticator\\": "src/"
         },
         "files": [
             "helpers/helpers.php"
@@ -52,7 +52,7 @@
     "autoload-dev": {
         "psr-4": {
             "Google\\Authenticator\\Tests\\": "tests/",
-            "Drewlabs\\GoogleAuthenticator\\Tests\\": "tests/"
+            "Sonata\\GoogleAuthenticator\\Tests\\": "tests/"
         }
     }
 }

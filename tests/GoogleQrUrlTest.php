@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Drewlabs\GoogleAuthenticator\tests;
+namespace Sonata\GoogleAuthenticator\tests;
 
-use Drewlabs\GoogleAuthenticator\GoogleQrUrl;
+use Sonata\GoogleAuthenticator\GoogleQrUrl;
 
 class GoogleQrUrlTest extends \PHPUnit\Framework\TestCase
 {
@@ -37,7 +37,7 @@ class GoogleQrUrlTest extends \PHPUnit\Framework\TestCase
 
     public function testEmptyIssuer(): void
     {
-        $this->expectException(\Drewlabs\GoogleAuthenticator\Exceptions\InvalidIssuerException::class);
+        $this->expectException(\Sonata\GoogleAuthenticator\Exceptions\InvalidIssuerException::class);
         $this->expectExceptionMessage('The issuer name may not contain a double colon (:) and may not be an empty string. Given "".');
 
         GoogleQrUrl::generate('JohnDoe', '3DHTQX4GCRKHGS55CJ', '');
@@ -45,7 +45,7 @@ class GoogleQrUrlTest extends \PHPUnit\Framework\TestCase
 
     public function testInvalidIssuer(): void
     {
-        $this->expectException(\Drewlabs\GoogleAuthenticator\Exceptions\InvalidIssuerException::class);
+        $this->expectException(\Sonata\GoogleAuthenticator\Exceptions\InvalidIssuerException::class);
         $this->expectExceptionMessage('The issuer name may not contain a double colon (:) and may not be an empty string. Given "Foo: bar".');
 
         GoogleQrUrl::generate('JohnDoe', '3DHTQX4GCRKHGS55CJ', 'Foo: bar');
@@ -53,7 +53,7 @@ class GoogleQrUrlTest extends \PHPUnit\Framework\TestCase
 
     public function testEmptyAccountName(): void
     {
-        $this->expectException(\Drewlabs\GoogleAuthenticator\Exceptions\InvalidAccountNameException::class);
+        $this->expectException(\Sonata\GoogleAuthenticator\Exceptions\InvalidAccountNameException::class);
         $this->expectExceptionMessage('The account name may not contain a double colon (:) and may not be an empty string. Given "".');
 
         GoogleQrUrl::generate('', '3DHTQX4GCRKHGS55CJ');
@@ -61,7 +61,7 @@ class GoogleQrUrlTest extends \PHPUnit\Framework\TestCase
 
     public function testInvalidAccountName(): void
     {
-        $this->expectException(\Drewlabs\GoogleAuthenticator\Exceptions\InvalidAccountNameException::class);
+        $this->expectException(\Sonata\GoogleAuthenticator\Exceptions\InvalidAccountNameException::class);
         $this->expectExceptionMessage('The account name may not contain a double colon (:) and may not be an empty string. Given "John: Doe".');
 
         GoogleQrUrl::generate('John: Doe', '3DHTQX4GCRKHGS55CJ', 'Foo: bar');
@@ -69,7 +69,7 @@ class GoogleQrUrlTest extends \PHPUnit\Framework\TestCase
 
     public function testInvalidSecret(): void
     {
-        $this->expectException(\Drewlabs\GoogleAuthenticator\Exceptions\InvalidSecretException::class);
+        $this->expectException(\Sonata\GoogleAuthenticator\Exceptions\InvalidSecretException::class);
         $this->expectExceptionMessage('The secret name may not be an empty string.');
 
         GoogleQrUrl::generate('John Doe', '');

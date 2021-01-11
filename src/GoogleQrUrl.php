@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Drewlabs\GoogleAuthenticator;
+namespace Sonata\GoogleAuthenticator;
 
 /**
  * Responsible for QR image url generation.
@@ -61,11 +61,11 @@ final class GoogleQrUrl
     public static function generate(string $accountName, string $secret, ?string $issuer = null, int $size = 200)
     {
         if ('' === $accountName || false !== strpos($accountName, ':')) {
-            throw new \Drewlabs\GoogleAuthenticator\Exceptions\InvalidAccountNameException($accountName);
+            throw new \Sonata\GoogleAuthenticator\Exceptions\InvalidAccountNameException($accountName);
         }
 
         if ('' === $secret) {
-            throw new \Drewlabs\GoogleAuthenticator\Exceptions\InvalidSecretException();
+            throw new \Sonata\GoogleAuthenticator\Exceptions\InvalidSecretException();
         }
 
         $label = $accountName;
@@ -73,7 +73,7 @@ final class GoogleQrUrl
 
         if (null !== $issuer) {
             if ('' === $issuer || false !== strpos($issuer, ':')) {
-                throw new \Drewlabs\GoogleAuthenticator\Exceptions\InvalidIssuerException($issuer);
+                throw new \Sonata\GoogleAuthenticator\Exceptions\InvalidIssuerException($issuer);
             }
 
             // use both the issuer parameter and label prefix as recommended by Google for BC reasons

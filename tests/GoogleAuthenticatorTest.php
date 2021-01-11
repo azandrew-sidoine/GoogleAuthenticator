@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Drewlabs\GoogleAuthenticator\tests;
+namespace Sonata\GoogleAuthenticator\tests;
 
-use Drewlabs\GoogleAuthenticator\GoogleAuthenticator;
+use Sonata\GoogleAuthenticator\GoogleAuthenticator;
 
 class GoogleAuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \Drewlabs\GoogleAuthenticator\GoogleAuthenticator
+     * @var \Sonata\GoogleAuthenticator\GoogleAuthenticator
      */
     protected $helper;
 
