@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\GoogleAuthenticator\tests;
+namespace Drewlabs\GoogleAuthenticator\tests;
 
-use Sonata\GoogleAuthenticator\GoogleAuthenticator;
+use Drewlabs\GoogleAuthenticator\GoogleAuthenticator;
 
 class GoogleAuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \Sonata\GoogleAuthenticator\GoogleAuthenticator
+     * @var \Drewlabs\GoogleAuthenticator\GoogleAuthenticator
      */
     protected $helper;
 
@@ -38,7 +38,7 @@ class GoogleAuthenticatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @group legacy
      * @expectedDeprecation Passing anything other than null or a DateTimeInterface to $time is deprecated as of 2.0 and will not be possible as of 3.0.
-     * @dataProvider testCheckCodeData
+     * @dataProvider checkCodeData
      */
     public function testCheckCodeWithLegacyArguments($expectation, $inputDate): void
     {
@@ -50,7 +50,7 @@ class GoogleAuthenticatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider testCheckCodeData
+     * @dataProvider checkCodeData
      */
     public function testCheckCode($expectation, $inputDate): void
     {
@@ -64,7 +64,7 @@ class GoogleAuthenticatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider testCheckCodeDiscrepancyData
+     * @dataProvider checkCodeDiscrepancyData
      */
     public function testCheckCodeDiscrepancy($expectation, $inputDate): void
     {
@@ -78,7 +78,7 @@ class GoogleAuthenticatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider testCheckCodeCustomPeriodData
+     * @dataProvider checkCodeCustomPeriodData
      */
     public function testCheckCodeCustomPeriod($expectation, $inputDate): void
     {
@@ -92,7 +92,7 @@ class GoogleAuthenticatorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider testCheckCodeCustomPeriodDiscrepancyData
+     * @dataProvider checkCodeCustomPeriodDiscrepancyData
      */
     public function testCheckCodeCustomPeriodDiscrepancy($expectation, $inputDate): void
     {
@@ -111,7 +111,7 @@ class GoogleAuthenticatorTest extends \PHPUnit\Framework\TestCase
      * seconds. This ensures that slow entries or time delays are not causing
      * problems.
      */
-    public static function testCheckCodeData(): array
+    public static function checkCodeData(): array
     {
         return [
             '1 second before valid interval' => [false, '2012-03-17 22:16:29'],
@@ -122,7 +122,7 @@ class GoogleAuthenticatorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public static function testCheckCodeDiscrepancyData(): array
+    public static function checkCodeDiscrepancyData(): array
     {
         return [
             '1 second before valid interval' => [false, '2012-03-17 22:16:59'],
@@ -132,7 +132,7 @@ class GoogleAuthenticatorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public static function testCheckCodeCustomPeriodData(): array
+    public static function checkCodeCustomPeriodData(): array
     {
         return [
             '1 second before valid interval' => [false, '2012-03-17 22:11:59'],
@@ -143,7 +143,7 @@ class GoogleAuthenticatorTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public static function testCheckCodeCustomPeriodDiscrepancyData(): array
+    public static function checkCodeCustomPeriodDiscrepancyData(): array
     {
         return [
             '1 second before valid interval' => [false, '2012-03-17 22:12:29'],
@@ -164,25 +164,23 @@ class GoogleAuthenticatorTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @group legacy
-     * @expectedDeprecation Using Sonata\GoogleAuthenticator\GoogleAuthenticator::getUrl() is deprecated as of 2.1 and will be removed in 3.0. Use Sonata\GoogleAuthenticator\GoogleQrUrl::generate() instead.
      */
     public function testGetUrlIssuer(): void
     {
         $this->assertSame(
             'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=otpauth%3A%2F%2Ftotp%2Ffoo%40foobar.org%3Fsecret%3D3DHTQX4GCRKHGS55CJ&ecc=M%26issuer%3DFooBar',
-            $this->helper->getUrl('foo', 'foobar.org', '3DHTQX4GCRKHGS55CJ', 'FooBar')
+            drewlabs_google_authenticator_url('foo', 'foobar.org', '3DHTQX4GCRKHGS55CJ', 'FooBar')
         );
     }
 
     /**
      * @group legacy
-     * @expectedDeprecation Using Sonata\GoogleAuthenticator\GoogleAuthenticator::getUrl() is deprecated as of 2.1 and will be removed in 3.0. Use Sonata\GoogleAuthenticator\GoogleQrUrl::generate() instead.
      */
     public function testGetUrlNoIssuer(): void
     {
         $this->assertSame(
             'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=otpauth%3A%2F%2Ftotp%2Ffoo%40foobar.org%3Fsecret%3D3DHTQX4GCRKHGS55CJ&ecc=M',
-            $this->helper->getUrl('foo', 'foobar.org', '3DHTQX4GCRKHGS55CJ')
+            drewlabs_google_authenticator_url('foo', 'foobar.org', '3DHTQX4GCRKHGS55CJ')
         );
     }
 }

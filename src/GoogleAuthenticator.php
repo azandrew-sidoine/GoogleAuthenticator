@@ -11,7 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\GoogleAuthenticator;
+namespace Drewlabs\GoogleAuthenticator;
+
+use Drewlabs\GoogleAuthenticator\Contracts\GoogleAuthenticatorInterface;
 
 /**
  * @see https://github.com/google/google-authenticator/wiki/Key-Uri-Format
@@ -68,8 +70,10 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
      * @param string $secret
      * @param string $code
      * @param int    $discrepancy
+     *
+     * @return bool|bool
      */
-    public function checkCode($secret, $code, $discrepancy = 1): bool
+    public function checkCode($secret, $code, $discrepancy = 1)
     {
         /**
          * Discrepancy is the factor of periodSize ($discrepancy * $periodSize) allowed on either side of the
@@ -96,12 +100,12 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
     }
 
     /**
-     * NEXT_MAJOR: add the interface typehint to $time and remove deprecation.
+     * @param string                  $secret
+     * @param \DateTimeInterface|null $time
      *
-     * @param string                                   $secret
-     * @param float|string|int|\DateTimeInterface|null $time
+     * @return string
      */
-    public function getCode($secret, /* \DateTimeInterface */$time = null): string
+    public function getCode($secret, $time = null)
     {
         if (null === $time) {
             $time = $this->instanceTime;
@@ -127,52 +131,16 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
         $offset = \ord(substr($hash, -1));
         $offset &= 0xF;
 
-        $truncatedHash = $this->hashToInt($hash, $offset) & 0x7FFFFFFF;
+        $truncatedHash = drewlabs_google_authenticator_hash_to_int($hash, $offset) & 0x7FFFFFFF;
 
         return str_pad((string) ($truncatedHash % $this->pinModulo), $this->passCodeLength, '0', STR_PAD_LEFT);
     }
 
     /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @param string $user
-     * @param string $hostname
-     * @param string $secret
-     *
-     * @deprecated deprecated as of 2.1 and will be removed in 3.0. Use Sonata\GoogleAuthenticator\GoogleQrUrl::generate() instead.
+     * @return string
      */
-    public function getUrl($user, $hostname, $secret): string
+    public function generateSecret()
     {
-        @trigger_error(sprintf(
-            'Using %s() is deprecated as of 2.1 and will be removed in 3.0. '.
-            'Use Sonata\GoogleAuthenticator\GoogleQrUrl::generate() instead.',
-            __METHOD__
-        ), E_USER_DEPRECATED);
-
-        $issuer = \func_get_args()[3] ?? null;
-        $accountName = sprintf('%s@%s', $user, $hostname);
-
-        // manually concat the issuer to avoid a change in URL
-        $url = GoogleQrUrl::generate($accountName, $secret);
-
-        if ($issuer) {
-            $url .= '%26issuer%3D'.$issuer;
-        }
-
-        return $url;
-    }
-
-    public function generateSecret(): string
-    {
-        return (new FixedBitNotation(5, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567', true, true))
-            ->encode(random_bytes($this->secretLength));
-    }
-
-    private function hashToInt(string $bytes, int $start): int
-    {
-        return unpack('N', substr(substr($bytes, $start), 0, 4))[1];
+        return drewlabs_google_authenticator_secret($this->secretLength);
     }
 }
-
-// NEXT_MAJOR: Remove class alias
-class_alias('Sonata\GoogleAuthenticator\GoogleAuthenticator', 'Google\Authenticator\GoogleAuthenticator', false);

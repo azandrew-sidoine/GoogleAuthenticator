@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\GoogleAuthenticator;
+namespace Drewlabs\GoogleAuthenticator;
 
 /**
  * Responsible for QR image url generation.
@@ -55,15 +55,17 @@ final class GoogleQrUrl
      * @param string      $secret      The secret is the generated secret unique to that user
      * @param string|null $issuer      Where you log in to
      * @param int         $size        Image size in pixels, 200 will make it 200x200
+     *
+     * @return string
      */
-    public static function generate(string $accountName, string $secret, ?string $issuer = null, int $size = 200): string
+    public static function generate(string $accountName, string $secret, ?string $issuer = null, int $size = 200)
     {
         if ('' === $accountName || false !== strpos($accountName, ':')) {
-            throw RuntimeException::InvalidAccountName($accountName);
+            throw new \Drewlabs\GoogleAuthenticator\Exceptions\InvalidAccountNameException($accountName);
         }
 
         if ('' === $secret) {
-            throw RuntimeException::InvalidSecret();
+            throw new \Drewlabs\GoogleAuthenticator\Exceptions\InvalidSecretException();
         }
 
         $label = $accountName;
@@ -71,7 +73,7 @@ final class GoogleQrUrl
 
         if (null !== $issuer) {
             if ('' === $issuer || false !== strpos($issuer, ':')) {
-                throw RuntimeException::InvalidIssuer($issuer);
+                throw new \Drewlabs\GoogleAuthenticator\Exceptions\InvalidIssuerException($issuer);
             }
 
             // use both the issuer parameter and label prefix as recommended by Google for BC reasons
@@ -88,6 +90,3 @@ final class GoogleQrUrl
         );
     }
 }
-
-// NEXT_MAJOR: Remove class alias
-class_alias('Sonata\GoogleAuthenticator\GoogleQrUrl', 'Google\Authenticator\GoogleQrUrl', false);

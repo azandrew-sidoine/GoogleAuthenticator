@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\GoogleAuthenticator;
+namespace Drewlabs\GoogleAuthenticator;
 
 /**
  * FixedBitNotation.
@@ -111,8 +111,10 @@ final class FixedBitNotation
      * Encode a string.
      *
      * @param string $rawString Binary data to encode
+     *
+     * @return string
      */
-    public function encode($rawString): string
+    public function encode($rawString)
     {
         // Unpack string into an array of bytes
         $bytes = unpack('C*', $rawString);
@@ -192,8 +194,10 @@ final class FixedBitNotation
      * @param bool   $caseSensitive
      * @param bool   $strict        Returns null if $encodedString contains
      *                              an undecodable character
+     *
+     * @return string
      */
-    public function decode($encodedString, $caseSensitive = true, $strict = false): string
+    public function decode($encodedString, $caseSensitive = true, $strict = false)
     {
         if (!$encodedString || !\is_string($encodedString)) {
             // Empty string, nothing to decode
@@ -287,6 +291,3 @@ final class FixedBitNotation
         return $rawString;
     }
 }
-
-// NEXT_MAJOR: Remove class alias
-class_alias('Sonata\GoogleAuthenticator\FixedBitNotation', 'Google\Authenticator\FixedBitNotation', false);
