@@ -111,6 +111,7 @@ final class FixedBitNotation
      * Encode a string.
      *
      * @param string $rawString Binary data to encode
+     *
      * @return string
      */
     public function encode($rawString)
@@ -193,6 +194,7 @@ final class FixedBitNotation
      * @param bool   $caseSensitive
      * @param bool   $strict        Returns null if $encodedString contains
      *                              an undecodable character
+     *
      * @return string
      */
     public function decode($encodedString, $caseSensitive = true, $strict = false)
@@ -289,4 +291,3 @@ final class FixedBitNotation
         return $rawString;
     }
 }
-

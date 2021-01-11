@@ -70,7 +70,8 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
      * @param string $secret
      * @param string $code
      * @param int    $discrepancy
-     * @return bool|boolean
+     *
+     * @return bool|bool
      */
     public function checkCode($secret, $code, $discrepancy = 1)
     {
@@ -99,9 +100,9 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
     }
 
     /**
-     *
-     * @param string                                   $secret
+     * @param string                  $secret
      * @param \DateTimeInterface|null $time
+     *
      * @return string
      */
     public function getCode($secret, $time = null)
@@ -130,18 +131,16 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
         $offset = \ord(substr($hash, -1));
         $offset &= 0xF;
 
-        $truncatedHash = \drewlabs_google_authenticator_hash_to_int($hash, $offset) & 0x7FFFFFFF;
+        $truncatedHash = drewlabs_google_authenticator_hash_to_int($hash, $offset) & 0x7FFFFFFF;
 
         return str_pad((string) ($truncatedHash % $this->pinModulo), $this->passCodeLength, '0', STR_PAD_LEFT);
     }
 
     /**
-     *
      * @return string
      */
     public function generateSecret()
     {
-        return \drewlabs_google_authenticator_secret($this->secretLength);
+        return drewlabs_google_authenticator_secret($this->secretLength);
     }
 }
-

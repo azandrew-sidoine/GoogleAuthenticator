@@ -18,15 +18,15 @@ interface GoogleAuthenticatorInterface
     /**
      * @param string $secret
      * @param string $code
+     *
      * @return bool
      */
     public function checkCode($secret, $code, $discrepancy = 1);
 
     /**
+     * @param string $secret
      *
-     * @param string                                   $secret
-     * @param \DateTimeInterface|null $time
      * @return string
      */
-    public function getCode($secret, \DateTimeInterface $time = null);
+    public function getCode($secret, ?\DateTimeInterface $time = null);
 }
