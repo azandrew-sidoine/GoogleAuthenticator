@@ -7,6 +7,7 @@
     ],
     "homepage": "https://github.com/azandrew-sidoine/GoogleAuthenticator",
     "license": "MIT",
+    "minimum-stability": "stable",
     "authors": [
         {
             "name": "Thomas Rabaix",
