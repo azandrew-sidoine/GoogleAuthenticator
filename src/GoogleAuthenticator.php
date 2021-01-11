@@ -104,7 +104,7 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
      * @param \DateTimeInterface|null $time
      * @return string
      */
-    public function getCode($secret, \DateTimeInterface $time = null)
+    public function getCode($secret, $time = null)
     {
         if (null === $time) {
             $time = $this->instanceTime;
