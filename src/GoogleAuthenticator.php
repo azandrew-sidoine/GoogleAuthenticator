@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Drewlabs\GoogleAuthenticator;
+namespace Sonata\GoogleAuthenticator;
 
-use Drewlabs\GoogleAuthenticator\Contracts\GoogleAuthenticatorInterface;
+use Sonata\GoogleAuthenticator\Contracts\GoogleAuthenticatorInterface;
 
 /**
  * @see https://github.com/google/google-authenticator/wiki/Key-Uri-Format

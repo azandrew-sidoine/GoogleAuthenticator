@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Drewlabs\GoogleAuthenticator\tests;
+namespace Sonata\GoogleAuthenticator\tests;
 
-use Drewlabs\GoogleAuthenticator\FixedBitNotation;
+use Sonata\GoogleAuthenticator\FixedBitNotation;
 
 class FixedBitNotationTest extends \PHPUnit\Framework\TestCase
 {

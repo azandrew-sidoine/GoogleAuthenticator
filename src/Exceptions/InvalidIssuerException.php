@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Drewlabs\GoogleAuthenticator\Exceptions;
+namespace Sonata\GoogleAuthenticator\Exceptions;
 
 class InvalidIssuerException extends \RuntimeException
 {

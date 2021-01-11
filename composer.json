@@ -1,11 +1,11 @@
 {
-    "name": "drewlabs/google-authenticator",
+    "name": "sonata-project/google-authenticator",
     "type": "library",
     "description": "Library to integrate Google Authenticator into a PHP project",
     "keywords": [
         "google authenticator"
     ],
-    "homepage": "https://github.com/azandrew-sidoine/GoogleAuthenticator",
+    "homepage": "https://github.com/sonata-project/GoogleAuthenticator",
     "license": "MIT",
     "minimum-stability": "stable",
     "authors": [
@@ -43,7 +43,7 @@
     "autoload": {
         "psr-4": {
             "Google\\Authenticator\\": "src/",
-            "Drewlabs\\GoogleAuthenticator\\": "src/"
+            "Sonata\\GoogleAuthenticator\\": "src/"
         },
         "files": [
             "helpers/helpers.php"
@@ -52,7 +52,7 @@
     "autoload-dev": {
         "psr-4": {
             "Google\\Authenticator\\Tests\\": "tests/",
-            "Drewlabs\\GoogleAuthenticator\\Tests\\": "tests/"
+            "Sonata\\GoogleAuthenticator\\Tests\\": "tests/"
         }
     }
 }

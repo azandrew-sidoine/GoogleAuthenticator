@@ -33,7 +33,7 @@ if (!function_exists('drewlabs_google_authenticator_secret')) {
      */
     function drewlabs_google_authenticator_secret($secretLength)
     {
-        return (new \Drewlabs\GoogleAuthenticator\FixedBitNotation(5, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567', true, true))
+        return (new \Sonata\GoogleAuthenticator\FixedBitNotation(5, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567', true, true))
             ->encode(random_bytes($secretLength));
     }
 }
@@ -48,7 +48,7 @@ if (!function_exists('drewlabs_google_authenticator_url')) {
         $issuer = $issuer ?? null;
         $accountName = sprintf('%s@%s', $user, $hostname);
         // manually concat the issuer to avoid a change in URL
-        $url = \Drewlabs\GoogleAuthenticator\GoogleQrUrl::generate($accountName, $secret);
+        $url = \Sonata\GoogleAuthenticator\GoogleQrUrl::generate($accountName, $secret);
 
         if ($issuer) {
             $url .= '%26issuer%3D'.$issuer;
