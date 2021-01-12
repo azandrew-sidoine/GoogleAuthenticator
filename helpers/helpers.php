@@ -50,12 +50,13 @@ if (!function_exists('drewlabs_google_authenticator_url')) {
         ?string $issuer = null,
         $qrSize = 200,
         $digits = 6,
-        $period = 30
+        $period = 30,
+        $alg = 'sha1'
     ) {
         $issuer = $issuer ?? null;
         $accountName = sprintf('%s@%s', $user, $hostname);
         // manually concat the issuer to avoid a change in URL
-        $url = \Sonata\GoogleAuthenticator\GoogleQrUrl::generate($accountName, $secret, $issuer, $qrSize, $digits, $period);
+        $url = \Sonata\GoogleAuthenticator\GoogleQrUrl::generate($accountName, $secret, $issuer, $qrSize, $digits, $period, $alg);
 
         return $url;
     }
