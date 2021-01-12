@@ -50,8 +50,19 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
      */
     private $periodSize = 30;
 
-    public function __construct(int $passCodeLength = 6, int $secretLength = 10, ?\DateTimeInterface $instanceTime = null, int $codePeriod = 30)
-    {
+    /**
+     * Encryption algorithm to use when performing constant time comparison
+     *
+     * @var string
+     */
+    private $alg = 'sha1';
+
+    public function __construct(
+        int $passCodeLength = 6,
+        int $secretLength = 10,
+        ?\DateTimeInterface $instanceTime = null,
+        int $codePeriod = 30
+    ) {
         /*
          * codePeriod is the duration in seconds that the code is valid.
          * periodSize is the length of a period to calculate periods since Unix epoch.
@@ -64,6 +75,28 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
         $this->periodSize = $codePeriod < $this->periodSize ? $codePeriod : $this->periodSize;
         $this->pinModulo = 10 ** $passCodeLength;
         $this->instanceTime = $instanceTime ?? new \DateTimeImmutable();
+    }
+
+    public static function createUsing(
+        int $passCodeLength = 6,
+        int $codePeriod = 30,
+        ?\DateTimeInterface $instanceTime = null,
+        string $alg = 'sha1',
+    ) {
+        $self = (new static($passCodeLength, 10, $instanceTime, $codePeriod))->setAlgorithm($alg);
+        return $self;
+    }
+
+    /**
+     * Set the authenticator algorithm
+     *
+     * @param string $alg
+     * @return static
+     */
+    public function setAlgorithm($alg)
+    {
+        $this->alg = google_authenticator_resolve_alg($this->alg)($alg);
+        return $this;
     }
 
     /**
@@ -92,7 +125,7 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
 
         $result = 0;
         for ($i = -$discrepancy; $i < $periods + $discrepancy; ++$i) {
-            $dateTime = new \DateTimeImmutable('@'.($this->instanceTime->getTimestamp() - ($i * $this->periodSize)));
+            $dateTime = new \DateTimeImmutable('@' . ($this->instanceTime->getTimestamp() - ($i * $this->periodSize)));
             $result = hash_equals($this->getCode($secret, $dateTime), $code) ? $dateTime->getTimestamp() : $result;
         }
 
@@ -115,8 +148,8 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
             $timeForCode = floor($time->getTimestamp() / $this->periodSize);
         } else {
             @trigger_error(
-                'Passing anything other than null or a DateTimeInterface to $time is deprecated as of 2.0 '.
-                'and will not be possible as of 3.0.',
+                'Passing anything other than null or a DateTimeInterface to $time is deprecated as of 2.0 ' .
+                    'and will not be possible as of 3.0.',
                 E_USER_DEPRECATED
             );
             $timeForCode = $time;
@@ -127,7 +160,7 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
 
         $timeForCode = str_pad(pack('N', $timeForCode), 8, \chr(0), STR_PAD_LEFT);
 
-        $hash = hash_hmac('sha1', $timeForCode, $secret, true);
+        $hash = hash_hmac($this->alg, $timeForCode, $secret, true);
         $offset = \ord(substr($hash, -1));
         $offset &= 0xF;
 

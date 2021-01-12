@@ -43,17 +43,38 @@ if (!function_exists('drewlabs_google_authenticator_url')) {
     /**
      * Generate the authenticator app QR code URL.
      */
-    function drewlabs_google_authenticator_url(string $user, string $hostname, string $secret, ?string $issuer = null)
-    {
+    function drewlabs_google_authenticator_url(
+        string $user,
+        string $hostname,
+        string $secret,
+        ?string $issuer = null,
+        $qrSize = 200,
+        $digits = 6,
+        $period = 30
+    ) {
         $issuer = $issuer ?? null;
         $accountName = sprintf('%s@%s', $user, $hostname);
         // manually concat the issuer to avoid a change in URL
-        $url = \Sonata\GoogleAuthenticator\GoogleQrUrl::generate($accountName, $secret);
-
-        if ($issuer) {
-            $url .= '%26issuer%3D'.$issuer;
-        }
+        $url = \Sonata\GoogleAuthenticator\GoogleQrUrl::generate($accountName, $secret, $issuer, $qrSize, $digits, $period);
 
         return $url;
+    }
+}
+
+
+if (!function_exists('google_authenticator_resolve_alg')) {
+
+    /**
+     *  Resolve user provider algorithm by matching it against supported algorithms
+     *
+     * @param string $alg
+     * @return \Closure
+     */
+    function google_authenticator_resolve_alg($initial = null)
+    {
+        return function ($alg) use ($initial) {
+            return !is_null($alg) && in_array(strtoupper($alg), \Sonata\GoogleAuthenticator\GoogleAuthenticatorConstants::SUPPORTE_ALG) ?
+                strtolower($alg) : $initial;
+        };
     }
 }

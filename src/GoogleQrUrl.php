@@ -55,11 +55,21 @@ final class GoogleQrUrl
      * @param string      $secret      The secret is the generated secret unique to that user
      * @param string|null $issuer      Where you log in to
      * @param int         $size        Image size in pixels, 200 will make it 200x200
+     * @param int $digits
+     * @param int $period
+     * @param string $alg
      *
      * @return string
      */
-    public static function generate(string $accountName, string $secret, ?string $issuer = null, int $size = 200)
-    {
+    public static function generate(
+        string $accountName,
+        string $secret,
+        ?string $issuer = null,
+        int $size = 200,
+        $digits = 6,
+        $period = 30,
+        $alg = 'sha1'
+    ) {
         if ('' === $accountName || false !== strpos($accountName, ':')) {
             throw new \Sonata\GoogleAuthenticator\Exceptions\InvalidAccountNameException($accountName);
         }
@@ -77,11 +87,23 @@ final class GoogleQrUrl
             }
 
             // use both the issuer parameter and label prefix as recommended by Google for BC reasons
-            $label = $issuer.':'.$label;
+            $label = $issuer . ':' . $label;
             $otpauthString .= '&issuer=%s';
         }
+        $otpauthString = sprintf($otpauthString, $label, $secret, $issuer);
+        if (isset($alg) && is_string($alg)) {
+            $otpauthString = \sprintf('%s&algorithm=%s', $otpauthString, strtoupper(google_authenticator_resolve_alg('sha1')($alg)));
+        }
 
-        $otpauthString = rawurlencode(sprintf($otpauthString, $label, $secret, $issuer));
+        if (isset($digits) && is_integer($digits)) {
+            $otpauthString = \sprintf('%s&digits=%d', $otpauthString, $digits);
+        }
+
+        if (isset($period) && is_integer($period)) {
+            $otpauthString = \sprintf('%s&period=%d', $otpauthString, $period);
+        }
+
+        $otpauthString = rawurlencode($otpauthString);
 
         return sprintf(
             'https://api.qrserver.com/v1/create-qr-code/?size=%1$dx%1$d&data=%2$s&ecc=M',
