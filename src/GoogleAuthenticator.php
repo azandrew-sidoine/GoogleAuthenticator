@@ -81,7 +81,7 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
         int $passCodeLength = 6,
         int $codePeriod = 30,
         ?\DateTimeInterface $instanceTime = null,
-        string $alg = 'sha1',
+        string $alg = 'sha1'
     ) {
         $self = (new static($passCodeLength, 10, $instanceTime, $codePeriod))->setAlgorithm($alg);
         return $self;
